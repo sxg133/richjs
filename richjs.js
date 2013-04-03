@@ -13,18 +13,24 @@ richjs.Control = {
 }
 
 richjs.options = {
+	// turn the toolbar on or off
 	toolbar: true,
+	// list controls in the order they should appear on the toolbar
 	controls: [
 		richjs.Control.BOLD,
 		richjs.Control.ITALIC,
 		richjs.Control.UNDERLINE,
 		richjs.Control.LINK
 	],
+	// modify class names for custom styles
 	classNames: {
 		toolbar: 'rjs-toolbar',
 		iframe: 'rjs-frame',
 		iframeBody: 'rjs-frame-body',
-		boldButton: 'rjs-button-bold'
+		boldButton: 'rjs-button-bold',
+		italicButton: 'rjs-italic-button',
+		underlineButton: 'rjs-underline-button',
+		linkButton: 'rjs-link-button'
 	}
 };
 
@@ -120,6 +126,7 @@ richjs.richtext = function(textinput) {
 					var button = document.createElement('input');
 					button.type = 'button';
 					button.value = 'Link';
+					button.className = richjs.options.classNames.linkButton;
 					button.onclick = function() {
 						var link = prompt('Enter the link URL:');
 						if (!link) {
