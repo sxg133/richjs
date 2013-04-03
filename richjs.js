@@ -79,11 +79,13 @@ richjs.richtext = function(textinput) {
 		}
 	}
 
-	var createFormatButton = function(command, className, value) {
+	// create generic buttons for text formatting
+	var createFormatButton = function(command, className, value, setClick) {
 		var button = document.createElement('input');
 		button.type = 'button';
 		button.className = className;
 		button.value = value;
+		button.title = command;
 		button.onclick = function() {
 			iframe.contentWindow.document.execCommand(command);
 			iframe.focus();
@@ -115,6 +117,23 @@ richjs.richtext = function(textinput) {
 					toolbar.appendChild(button);
 					break;
 				case richjs.Control.LINK:
+					var button = document.createElement('input');
+					button.type = 'button';
+					button.value = 'Link';
+					button.onclick = function() {
+						var link = prompt('Enter the link URL:');
+						if (!link) {
+							return;
+						}
+						if (link.startsWith('www')) {
+							link = 'http://' + link;
+						} else if (!link.startsWith('http')) {
+							link = 'http://www.' + link;
+						}
+						iframe.contentWindow.document.execCommand('createLink', false, link);
+						iframe.focus();
+					}
+					toolbar.appendChild(button);
 					break;
 				default:
 					break;
