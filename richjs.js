@@ -5,14 +5,27 @@
 
 var richjs = richjs || {};
 
+richjs.Control = {
+	BOLD: "bold",
+	ITALIC: "italic",
+	UNDERLINE: "underline",
+	LINK: "link"
+}
+
 richjs.options = {
-	toolbar: true
+	toolbar: true,
 	controls: [
-		"bold",
-		"italic",
-		"underline",
-		"link"
-	]
+		richjs.Control.BOLD,
+		richjs.Control.ITALIC,
+		richjs.Control.UNDERLINE,
+		richjs.Control.LINK
+	],
+	classNames: {
+		toolbar: 'rjs-toolbar',
+		iframe: 'rjs-frame',
+		iframeBody: 'rjs-frame-body',
+		boldButton: 'rjs-button-bold'
+	}
 };
 
 richjs.richtext = function(textinput) {
@@ -28,13 +41,13 @@ richjs.richtext = function(textinput) {
 	// create and setup iframe
 	var iframe = iframe = document.createElement('iframe');
 	textinput.parentNode.insertBefore(iframe, textinput);
-	iframe.className = 'rjs-frame';
+	iframe.className = richjs.options.classNames.iframe;
 	iframe.contentWindow.document.open();
 	iframe.contentWindow.document.write(
 		'<html>' +
 			'<head>' +
 			'</head>' +
-			'<body class="rjs-frame-body">' +
+			'<body class="' + richjs.options.classNames.iframeBody + '">' +
 			'</body>' +
 		'</html>'
 	);
@@ -52,13 +65,50 @@ richjs.richtext = function(textinput) {
 			e.preventDefault();
 			switch (key) {
 				case 'b':
-					format('bold');
+					format(richjs.Control.BOLD);
 					break;
 				case 'i':
-					format('italic');
+					format(richjs.Control.ITALIC);
 					break;
 				case 'u':
-					format('underline');
+					format(richjs.Control.UNDERLINE);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	var createFormatButton = function(command, className) {
+		var button = document.createElement('input');
+		button.type = 'button';
+		button.className = className;
+		button.onclick = function() {
+			iframe.contentWindow.document.execCommand(command);
+			iframe.focus();
+		}
+		return button;
+	}
+
+	// setup toolbar
+	if (richjs.options.toolbar) {
+		var toolbar = document.createElement('div');
+		toolbar.className = richjs.options.classNames.toolbar;
+		iframe.parentNode.insertBefore(toolbar, iframe);
+		for (var i=0, ii=richjs.options.controls.length; i<ii; i++) {
+			var c = richjs.options.controls[i];
+			switch(c) {
+				case richjs.Control.BOLD:
+					var button = createFormatButton(richjs.Control.BOLD, richjs.options.classNames.boldButton);
+					button.value = 'B';
+					button.style.fontWeight = 'bold';
+					toolbar.appendChild(button);
+					break;
+				case richjs.Control.ITALIC:
+					break;
+				case richjs.Control.UNDERLINE:
+					break;
+				case richjs.Control.LINK:
 					break;
 				default:
 					break;
