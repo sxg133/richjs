@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Rich JS Example</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="richjs.js"></script>
+		<script type="text/javascript">
+
+			var richtext;
+
+			function init() {
+				var textarea = document.getElementById('my-text-area');
+				richtext = new richjs.richtext(textarea);
+				richtext.focus();
+			}
+
+		</script>
+	</head>
+	<body>
+		<h1>Rich JS Example</h1>
+		<textarea id="my-text-area"> </textarea>
+		<script type="text/javascript">
+			window.onload = init;
+		</script>
+	</body>
+</html>
