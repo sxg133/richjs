@@ -79,10 +79,11 @@ richjs.richtext = function(textinput) {
 		}
 	}
 
-	var createFormatButton = function(command, className) {
+	var createFormatButton = function(command, className, value) {
 		var button = document.createElement('input');
 		button.type = 'button';
 		button.className = className;
+		button.value = value;
 		button.onclick = function() {
 			iframe.contentWindow.document.execCommand(command);
 			iframe.focus();
@@ -99,14 +100,19 @@ richjs.richtext = function(textinput) {
 			var c = richjs.options.controls[i];
 			switch(c) {
 				case richjs.Control.BOLD:
-					var button = createFormatButton(richjs.Control.BOLD, richjs.options.classNames.boldButton);
-					button.value = 'B';
+					var button = createFormatButton(richjs.Control.BOLD, richjs.options.classNames.boldButton, 'B');
 					button.style.fontWeight = 'bold';
 					toolbar.appendChild(button);
 					break;
 				case richjs.Control.ITALIC:
+					var button = createFormatButton(richjs.Control.ITALIC, richjs.options.classNames.italicButton, 'I');
+					button.style.fontStyle = 'italic';
+					toolbar.appendChild(button);
 					break;
 				case richjs.Control.UNDERLINE:
+					var button = createFormatButton(richjs.Control.UNDERLINE, richjs.options.classNames.underlineButton, 'U');
+					button.style.textDecoration = 'underline';
+					toolbar.appendChild(button);
 					break;
 				case richjs.Control.LINK:
 					break;
