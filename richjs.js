@@ -27,10 +27,10 @@ richjs.options = {
 		toolbar: 'rjs-toolbar',
 		iframe: 'rjs-frame',
 		iframeBody: 'rjs-frame-body',
-		boldButton: 'rjs-button-bold',
-		italicButton: 'rjs-italic-button',
-		underlineButton: 'rjs-underline-button',
-		linkButton: 'rjs-link-button'
+		boldButton: 'rjs-button rjs-bold',
+		italicButton: 'rjs-button rjs-italic',
+		underlineButton: 'rjs-button rjs-underline',
+		linkButton: 'rjs-button rjs-link'
 	}
 };
 
