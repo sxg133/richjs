@@ -9,7 +9,8 @@ richjs.Control = {
 	BOLD: "bold",
 	ITALIC: "italic",
 	UNDERLINE: "underline",
-	LINK: "link"
+	LINK: "link",
+	IMAGE: "image"
 }
 
 richjs.options = {
@@ -20,7 +21,8 @@ richjs.options = {
 		richjs.Control.BOLD,
 		richjs.Control.ITALIC,
 		richjs.Control.UNDERLINE,
-		richjs.Control.LINK
+		richjs.Control.LINK,
+		richjs.Control.IMAGE
 	],
 	// modify class names for custom styles
 	classNames: {
@@ -30,7 +32,8 @@ richjs.options = {
 		boldButton: 'rjs-button rjs-bold',
 		italicButton: 'rjs-button rjs-italic',
 		underlineButton: 'rjs-button rjs-underline',
-		linkButton: 'rjs-button rjs-link'
+		linkButton: 'rjs-button rjs-link',
+		imageButton: 'rjs-button rjs-image'
 	}
 };
 
@@ -99,6 +102,17 @@ richjs.richtext = function(textinput) {
 		return button;
 	}
 
+	var promptForURL = function(promptText) {
+		var link = prompt(promptText);
+		if (!link) {
+			return;
+		}
+		if (!link.startsWith('http://')) {
+			link = 'http://' + link;
+		}
+		return link;
+	}
+
 	// setup toolbar
 	if (richjs.options.toolbar) {
 		var toolbar = document.createElement('div');
@@ -128,16 +142,20 @@ richjs.richtext = function(textinput) {
 					button.value = 'Link';
 					button.className = richjs.options.classNames.linkButton;
 					button.onclick = function() {
-						var link = prompt('Enter the link URL:');
-						if (!link) {
-							return;
-						}
-						if (link.startsWith('www')) {
-							link = 'http://' + link;
-						} else if (!link.startsWith('http')) {
-							link = 'http://www.' + link;
-						}
+						var link = promptForURL('Enter the link URL:');
 						iframe.contentWindow.document.execCommand('createLink', false, link);
+						iframe.focus();
+					}
+					toolbar.appendChild(button);
+					break;
+				case richjs.Control.IMAGE:
+					var button = document.createElement('input');
+					button.type = 'button';
+					button.value = 'Image';
+					button.className = richjs.options.classNames.imageButton;
+					button.onclick = function() {
+						var image = promptForURL('Enter the URL of the image:');
+						iframe.contentWindow.document.execCommand('insertImage', false, image);
 						iframe.focus();
 					}
 					toolbar.appendChild(button);
