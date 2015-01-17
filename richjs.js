@@ -3,6 +3,14 @@
  * Description: A light-weight, rich text editor plugin.
  */
 
+ (function() {
+ 	if (typeof String.prototype.startsWith !== 'function') {
+ 		String.prototype.startsWith = function(str) {
+ 			return this.indexOf(str) === 0;
+ 		};
+ 	}
+ })();
+
 var richjs = richjs || {};
 
 richjs.Control = {
@@ -107,7 +115,7 @@ richjs.richtext = function(textinput) {
 		if (!link) {
 			return;
 		}
-		if (!link.startsWith('http://')) {
+		if (!link.startsWith('http://') && !link.startsWith('https://')) {
 			link = 'http://' + link;
 		}
 		return link;
