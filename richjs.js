@@ -24,6 +24,8 @@ richjs.Control = {
 richjs.options = {
 	// turn the toolbar on or off
 	toolbar: true,
+	// the text area is resizable
+	resizable: true,
 	// list controls in the order they should appear on the toolbar
 	controls: [
 		richjs.Control.BOLD,
@@ -57,6 +59,9 @@ richjs.richtext = function(textinput) {
 
 	// create and setup iframe
 	var iframe = iframe = document.createElement('iframe');
+	if (richjs.options.resizable) {
+		iframe.style.resize = "both";
+	}
 	textinput.parentNode.insertBefore(iframe, textinput);
 	iframe.className = richjs.options.classNames.iframe;
 	iframe.contentWindow.document.open();
